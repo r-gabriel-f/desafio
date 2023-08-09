@@ -1,5 +1,3 @@
-import logo from "./logo.svg";
-
 import "./App.css";
 import { Verpeliculas } from "./components/Verpeliculas";
 import {
@@ -8,7 +6,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { React, useState, useEffect } from "react";
+import { React} from "react";
 import { Infopelicula } from "./components/Infopelicula";
 import { Verfavoritos } from "./components/Verfavoritos";
 function App() {

@@ -9,7 +9,7 @@ export const Verpeliculas = () => {
 
   const fetchMovies = async () => {
     const query = searchTerm;
-    const URL = `http://www.omdbapi.com/?s=${query}&apikey=d07fd8f9`;
+    const URL = `https://www.omdbapi.com/?s=${query}&apikey=d07fd8f9`;
     const response = await fetch(URL);
     const finalData = await response.json();
     setData(finalData.Search);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams} from "react-router-dom";
 
 export const Infopelicula = () => {
   const { id } = useParams();
@@ -7,10 +7,9 @@ export const Infopelicula = () => {
 
   useEffect(() => {
     const fetchMovieData = async () => {
-      const URL = `http://www.omdbapi.com/?i=${id}&apikey=d07fd8f9`;
+      const URL = `https://www.omdbapi.com/?i=${id}&apikey=d07fd8f9`;
       const response = await fetch(URL);
       const finalData = await response.json();
-      console.log("API response for movieId:", finalData);
       setMovieData(finalData);
     };
 
