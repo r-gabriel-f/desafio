@@ -10,21 +10,15 @@ import {
 } from "react-router-dom";
 import { React, useState, useEffect } from "react";
 import { Infopelicula } from "./components/Infopelicula";
+import { Verfavoritos } from "./components/Verfavoritos";
 function App() {
-  const [data, setData] = useState(null);
 
-  useEffect(() => {
-    fetch("http://www.omdbapi.com/?i=tt0145487&apikey=d07fd8f9")
-      .then((response) => response.json())
-      .then((data) => setData(data));
-      console.log(data);
-    
-  }, []);
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Verpeliculas/>}/>
         <Route path="/movie/:id" element={<Infopelicula />} />
+        <Route path="/favoritos" element={<Verfavoritos/>}/>
 
         <Route path="/*" element={<Navigate to="/" />} />
 

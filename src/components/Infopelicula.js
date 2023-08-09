@@ -41,12 +41,7 @@ export const Infopelicula = () => {
           >
             Volver atrás
           </button>
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 mt-2 rounded focus:outline-none"
-           
-          >
-            Guardar Pelicula
-          </button>
+         
         </div>
       )}
     </section>
