@@ -71,8 +71,10 @@ export const Verpeliculas = () => {
                 alt={val.Title}
                 className="w-full h-[250px] mb-2"
               />
+              <div className="flex items-center justify-center h-[80px] text-center">
+                <p className="font-bold">{val.Title}</p>
+              </div>
 
-              <p className="text-center font-bold">{val.Title}</p>
               <div className="flex flex-col items-center">
                 <Link to={`/movie/${val.imdbID}`}>
                   <button
