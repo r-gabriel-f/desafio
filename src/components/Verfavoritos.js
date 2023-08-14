@@ -1,15 +1,34 @@
 import React, { useState } from "react";
 
 export const Verfavoritos = () => {
+  const Swal = require('sweetalert2')
   const [savedMovies, setSavedMovies] = useState(
     JSON.parse(localStorage.getItem("savedMovies")) || []
   );
   const handleRemoveFavorite = (movieId) => {
-    const updatedMovies = savedMovies.filter(
-      (movie) => movie.imdbID !== movieId
-    );
-    setSavedMovies(updatedMovies);
-    localStorage.setItem("savedMovies", JSON.stringify(updatedMovies));
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¿Deseas eliminar la película de tus favoritos?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updatedMovies = savedMovies.filter(
+          (movie) => movie.imdbID !== movieId
+        );
+        setSavedMovies(updatedMovies);
+        localStorage.setItem("savedMovies", JSON.stringify(updatedMovies));
+        Swal.fire(
+          'Eliminada',
+          'La película ha sido eliminada de tus favoritos.',
+          'success'
+        );
+      }
+    });
   };
 
   return (

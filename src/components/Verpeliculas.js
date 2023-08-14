@@ -1,38 +1,98 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Infopelicula } from "./Infopelicula";
+
 
 export const Verpeliculas = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMovieId, setSelectedMovieId] = useState(null);
+  
+  const [showNoResultsMessage, setShowNoResultsMessage] = useState(false);
+
+  const Swal = require('sweetalert2')
 
   const fetchMovies = async () => {
     const query = searchTerm;
     const URL = `https://www.omdbapi.com/?s=${query}&apikey=d07fd8f9`;
-    const response = await fetch(URL);
-    const finalData = await response.json();
-    setData(finalData.Search);
+  
+    try {
+      const response = await fetch(URL);
+      const finalData = await response.json();
+      console.log("Response from API:", finalData);
+  
+      if (finalData.Response === "False") {
+        setShowNoResultsMessage(true);
+        setData([]);
+        Swal.fire(
+          'No se encontraron resultados',
+          'No existe ninguna película con ese nombre.',
+          'warning'
+        );
+      } else {
+        setShowNoResultsMessage(false);
+        setData(finalData.Search || []);
+      }
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+      setShowNoResultsMessage(true);
+      setData([]);
+    }
   };
 
-  const handleSearch = () => {
-    fetchMovies();
-  };
-
+  
   const handleMovieSelection = (movieId) => {
     setSelectedMovieId(movieId);
     localStorage.setItem("selectedMovieId", movieId);
   };
   const handleSaveMovie = (movieData) => {
     const savedMovies = JSON.parse(localStorage.getItem("savedMovies")) || [];
-    savedMovies.push(movieData);
-    localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+  
+    
+    const isMovieAlreadySaved = savedMovies.some(
+      (savedMovie) => savedMovie.imdbID === movieData.imdbID
+    );
+  
+    if (isMovieAlreadySaved) {
+      
+      Swal.fire({
+        icon: 'info',
+        title: 'Pelicula ya guardada',
+        text: 'Esta película ya se encuentra en tus favoritos.',
+        showConfirmButton: false,
+        timer: 3000
+      });
+    } else {
+
+      savedMovies.push(movieData);
+      localStorage.setItem("savedMovies", JSON.stringify(savedMovies));
+      
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Pelicula Guardada',
+        showConfirmButton: false,
+        timer: 3000
+      });
+    }
   };
   const navigate = useNavigate();
   const handlefavoritosClick = () => {
     navigate("/favoritos");
   };
+  const handleSearch = () => {
+    if (searchTerm.trim() === "") {
+      Swal.fire(
+        'Porfavor',
+        'Ingrese el titulo de la pelicula',
+        'warning'
+      )
+      
+    } else {
 
+      fetchMovies();
+    }
+  };
+ 
   return (
     <section className="p-8">
       <div className="mb-4 flex items-center">
@@ -61,7 +121,7 @@ export const Verpeliculas = () => {
           Ver Favoritos
         </button>
       </div>
-
+      
       <ul className="grid grid-cols-2 md:grid-cols-5 gap-4 list-none p-0">
         {data.map((val, index) => (
           <li key={index} className="border p-4">
@@ -96,7 +156,6 @@ export const Verpeliculas = () => {
           </li>
         ))}
       </ul>
-      {selectedMovieId && <Infopelicula movieId={selectedMovieId} />}
     </section>
   );
 };
