@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 export const Verpeliculas = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [ setSelectedMovieId] = useState(null);
+  const [SelectedMovieId, setSelectedMovieId] = useState(null);
 
-  const [ setShowNoResultsMessage] = useState(false);
+  const [ShowNoResultsMessage, setShowNoResultsMessage] = useState(false);
 
   const Swal = require("sweetalert2");
 
