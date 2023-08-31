@@ -36,7 +36,7 @@ export const Verfavoritos = () => {
       <div className="flex flex-col items-center m-5">
         <h2 className="text-2xl font-semibold">Películas Favoritas</h2>
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded focus:outline-none mt-2"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded focus:outline-none m-10"
           onClick={() => window.history.back()}
         >
           Volver atrás
@@ -44,12 +44,12 @@ export const Verfavoritos = () => {
       </div>
       <ul className="grid grid-cols-2 md:grid-cols-5 gap-4 list-none p-0">
         {savedMovies.map((movie, index) => (
-          <li key={index} className="border p-4">
+          <li key={index} className="bg-black bg-opacity-50 rounded-lg text-white border p-4">
             <div className="items-center">
               <img
                 src={movie.Poster}
                 alt={movie.Title}
-                className="w-full h-[250px] mb-2"
+                className="w-full h-64 mb-2 border rounded-lg"
               />
               <div className="flex items-center justify-center h-[80px] text-center">
                 <p className="font-bold">{movie.Title}</p>
