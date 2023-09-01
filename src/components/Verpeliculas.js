@@ -1,45 +1,35 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 export const Verpeliculas = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [SelectedMovieId, setSelectedMovieId] = useState(null);
 
   const [ShowNoResultsMessage, setShowNoResultsMessage] = useState(false);
 
-  const Swal = require("sweetalert2");
-
   const fetchMovies = async () => {
-    const query = searchTerm;
-    const URL = `https://www.omdbapi.com/?s=${query}&apikey=d07fd8f9`;
+    const URL = `https://www.omdbapi.com/?s=${searchTerm}&apikey=d07fd8f9`;
 
-    try {
-      const response = await fetch(URL);
-      const finalData = await response.json();
-      console.log("Response from API:", finalData);
+    const response = await fetch(URL);
+    const finalData = await response.json();
+    console.log("Response from API:", finalData);
 
-      if (finalData.Response === "False") {
-        setShowNoResultsMessage(true);
-        setData([]);
-        Swal.fire(
-          "No se encontraron resultados",
-          "No existe ninguna película con ese nombre.",
-          "warning"
-        );
-      } else {
-        setShowNoResultsMessage(false);
-        setData(finalData.Search || []);
-      }
-    } catch (error) {
-      console.error("Error fetching movies:", error);
+    if (finalData.Response === "False") {
       setShowNoResultsMessage(true);
       setData([]);
+      Swal.fire(
+        "No se encontraron resultados",
+        "No existe ninguna película con ese nombre.",
+        "warning"
+      );
+    } else {
+      setShowNoResultsMessage(false);
+      setData(finalData.Search);
     }
+    return ShowNoResultsMessage;
   };
 
   const handleMovieSelection = (movieId) => {
-    setSelectedMovieId(movieId);
     localStorage.setItem("selectedMovieId", movieId);
   };
   const handleSaveMovie = (movieData) => {
@@ -112,7 +102,10 @@ export const Verpeliculas = () => {
 
       <ul className="grid grid-cols-2 md:grid-cols-5 gap-4 list-none p-0">
         {data.map((val, index) => (
-          <li key={index} className="border p-4 bg-black bg-opacity-50 rounded-lg text-white">
+          <li
+            key={index}
+            className="border p-4 bg-black bg-opacity-50 rounded-lg text-white"
+          >
             <div className="items-center">
               <img
                 src={val.Poster}

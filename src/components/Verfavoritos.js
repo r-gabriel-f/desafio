@@ -3,7 +3,7 @@ import React, { useState } from "react";
 export const Verfavoritos = () => {
   const Swal = require('sweetalert2')
   const [savedMovies, setSavedMovies] = useState(
-    JSON.parse(localStorage.getItem("savedMovies")) || []
+    JSON.parse(localStorage.getItem("savedMovies"))
   );
   const handleRemoveFavorite = (movieId) => {
     Swal.fire({

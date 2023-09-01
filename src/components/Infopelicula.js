@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams} from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 
 export const Infopelicula = () => {
   const { id } = useParams();
   const [movieData, setMovieData] = useState(null);
-
   useEffect(() => {
     const fetchMovieData = async () => {
       const URL = `https://www.omdbapi.com/?i=${id}&apikey=d07fd8f9`;
@@ -12,11 +11,16 @@ export const Infopelicula = () => {
       const finalData = await response.json();
       setMovieData(finalData);
     };
-
+  
     fetchMovieData();
   }, [id]);
-
   
+ 
+
+  const navigate = useNavigate();
+  const handleinicioClick = () => {
+    navigate("/");
+  };
 
   return (
     <section className="container-info p-8">
@@ -36,7 +40,8 @@ export const Infopelicula = () => {
           
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded focus:outline-none"
-            onClick={() => window.history.back()}
+            onClick={handleinicioClick}
+            to="/"
           >
             Volver atrás
           </button>
